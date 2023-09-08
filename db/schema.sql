@@ -3,28 +3,31 @@ CREATE DATABASE employee_db;
 
 USE employee_db;
 
-CREATE TABLE department {
-    id NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(30)
-};
+CREATE TABLE department (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(30),
+    PRIMARY KEY (id)
+);
 
-CREATE TABLE role {
-    id NOT NULL AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE role (
+    id INT NOT NULL AUTO_INCREMENT,
     title VARCHAR(30),
     salary DECIMAL NULL,
     department_id INT NOT NULL,
+    PRIMARY KEY (id),
     FOREIGN KEY (department_id)
     REFERENCES department(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-};
+);
 
 CREATE TABLE employee (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id INT NOT NULL AUTO_INCREMENT,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
     role_id INT NOT NULL,
     manager_id INT,
+    PRIMARY KEY (id),
     FOREIGN KEY (role_id)
     REFERENCES role(id)
     ON DELETE RESTRICT
@@ -33,4 +36,4 @@ CREATE TABLE employee (
     REFERENCES employee(id)
     ON DELETE SET NULL
     ON UPDATE CASCADE
-)
+);

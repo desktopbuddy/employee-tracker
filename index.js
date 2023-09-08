@@ -31,7 +31,7 @@ function initializePrompt() {
         .prompt(questions)
         .then((response) => {
             if (response.action === 'View all departments') {
-                viewEmployees();
+                viewDepartments();
             }
         })
 }
@@ -42,3 +42,5 @@ function viewDepartments() {
         console.table(data);
     })
 }
+
+initializePrompt();

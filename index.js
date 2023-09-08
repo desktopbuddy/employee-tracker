@@ -24,3 +24,21 @@ const questions = [
         ],
     },
 ];
+
+// Run inquirer with questions
+function initializePrompt() {
+    inquirer
+        .prompt(questions)
+        .then((response) => {
+            if (response.action === 'View all departments') {
+                viewEmployees();
+            }
+        })
+}
+
+// View all departments
+function viewDepartments() {
+    connection.query('SELECT * FROM department', function (error, data) {
+        console.table(data);
+    })
+}

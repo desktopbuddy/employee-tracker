@@ -36,6 +36,8 @@ function initializePrompt() {
                 viewRoles();
             } else if (response.action === 'View all employees') {
                 viewEmployees();
+            } else if (response.action === 'Add a department') {
+                addDepartment();
             }
         })
 }
@@ -46,6 +48,28 @@ function viewDepartments() {
         console.table(data);
         initializePrompt();
     })
+}
+
+// Add a department
+function addDepartment() {
+    inquirer
+        .prompt([
+            {
+                type: 'text',
+                name: 'name',
+                message: 'What is the name of the department?'
+            },
+        ])
+        .then(function (response) {
+            connection.query(
+                'INSERT into department (name) values(?)',
+                [response.name],
+                function (error, data) {
+                    console.table(data);
+                    initializePrompt();
+                }
+            )
+        })
 }
 
 // View all roles

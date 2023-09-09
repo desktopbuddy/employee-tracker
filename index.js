@@ -15,10 +15,10 @@ const questions = [
         message: 'What would you like to do?',
         choices: [
             'View all departments',
-            'View all roles',
-            'View all employees',
             'Add a department',
+            'View all roles',
             'Add a role',
+            'View all employees',
             'Add an employee',
             'Update an employee role',
         ],
@@ -32,6 +32,8 @@ function initializePrompt() {
         .then((response) => {
             if (response.action === 'View all departments') {
                 viewDepartments();
+            } else if (response.action === 'View all roles') {
+                viewRoles();
             }
         })
 }
@@ -40,7 +42,16 @@ function initializePrompt() {
 function viewDepartments() {
     connection.query('SELECT * FROM department', function (error, data) {
         console.table(data);
+        initializePrompt();
     })
+}
+
+// View all roles
+function viewRoles() {
+    connection.query('SELECT * FROM role', function (error, data) {
+        console.table(data);
+        initializePrompt();
+    });
 }
 
 initializePrompt();

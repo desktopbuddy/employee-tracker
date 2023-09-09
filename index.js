@@ -131,7 +131,7 @@ function addRole() {
 
 // View all employees
 function viewEmployees() {
-    connection.query('SELECT * FROM employee', function (error, data) {
+    connection.query('SELECT * FROM employee JOIN role ON employee.role_id = role.id', function (error, data) {
         console.table(data);
         initializePrompt();
     });

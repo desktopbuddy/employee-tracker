@@ -38,6 +38,8 @@ function initializePrompt() {
                 viewEmployees();
             } else if (response.action === 'Add a department') {
                 addDepartment();
+            } else if (response.action === 'Add a role') {
+                addRole();
             }
         })
 }
@@ -77,6 +79,49 @@ function viewRoles() {
     connection.query('SELECT * FROM role', function (error, data) {
         console.table(data);
         initializePrompt();
+    });
+}
+
+// Add a role
+function addRole() {
+    connection.query('SELECT * FROM department', function (error, departments) {
+        inquirer
+            .prompt([
+                {
+                    type: 'text',
+                    name: 'title',
+                    message: 'What is the name of the role?',
+                },
+                {
+                    type: 'text',
+                    name: 'salary',
+                    message: 'What is the salary of the role?',
+                },
+                {
+                    type: 'list',
+                    name: 'department',
+                    message: 'What is the department of the role?',
+                    choices: departments.map((department) => department.name),
+                    filter: function (choice) {
+                        return departments.find((department) => department.name === choice).id;
+                    },
+                },
+            ])
+            .then(function (response) {
+                const newRole = {
+                    title: response.title,
+                    salary: response.salary,
+                    department_id: response.department,
+                };
+                connection.query(
+                    'INSERT into role SET ?',
+                    newRole,
+                    function (error, data) {
+                        console.table(data);
+                        initializePrompt();
+                    }
+                );
+            });
     });
 }
 

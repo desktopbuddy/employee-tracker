@@ -34,6 +34,8 @@ function initializePrompt() {
                 viewDepartments();
             } else if (response.action === 'View all roles') {
                 viewRoles();
+            } else if (response.action === 'View all employees') {
+                viewEmployees();
             }
         })
 }
@@ -49,6 +51,14 @@ function viewDepartments() {
 // View all roles
 function viewRoles() {
     connection.query('SELECT * FROM role', function (error, data) {
+        console.table(data);
+        initializePrompt();
+    });
+}
+
+// View all employees
+function viewEmployees() {
+    connection.query('SELECT * FROM employee', function (error, data) {
         console.table(data);
         initializePrompt();
     });
